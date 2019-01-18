@@ -1,0 +1,15 @@
+{
+  "name": "shopify-challenge",
+  "version": "1.0.0",
+  "description": "A barebones marketplace API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none-yet"
+  },
+  "author": "Thomas L'Anglais",
+  "license": "ISC"
+}
