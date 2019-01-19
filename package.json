@@ -1,0 +1,24 @@
+{
+  "name": "shopify-challenge",
+  "version": "1.0.0",
+  "description": "A barebones marketplace API",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none-yet"
+  },
+  "author": "Thomas L'Anglais",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-session": "^1.15.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "supertest": "^3.4.1"
+  }
+}
