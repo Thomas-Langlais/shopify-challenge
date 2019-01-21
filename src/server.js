@@ -1,6 +1,10 @@
 // call the packages we need
 var express = require('express');
+var { Client } = require('pg');
+
 var app = express();
+
+const pgConfig = require('./config/pg-client.json');
 
 const productRouter = require('./routes/product');
 const shoppingCartRouter = require('./routes/shoppingcart');

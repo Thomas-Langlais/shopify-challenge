@@ -4,8 +4,7 @@
   "description": "A barebones marketplace API",
   "main": "./src/server.js",
   "scripts": {
-    "start": "node ./src/server.js",
-    "test": "test"
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,10 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
-    "express-session": "^1.15.6"
+    "express-session": "^1.15.6",
+    "pg": "^7.8.0"
   },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "supertest": "^3.4.1"
-  }
+  "devDependencies": {}
 }

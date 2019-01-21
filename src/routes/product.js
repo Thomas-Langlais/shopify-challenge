@@ -1,9 +1,13 @@
 const productRouter = require('express').Router();
+const { Pool } = require('pg');
+
 const utils = require('../utils/index');
+const pgconfig = require('../config/pg-client.json');
 
 productRouter.get('/products', getAllProducts);
 productRouter.get(new RegExp('/products/' + utils.guidExp), getProduct);
 
+const pool = new Pool(pgconfig);
 
 /**
  * This endpoint will fetch all the product data from the database
@@ -15,8 +19,12 @@ productRouter.get(new RegExp('/products/' + utils.guidExp), getProduct);
  * @param {*} req
  * @param {*} res
  */
-function getAllProducts(req, res) {
-    res.json({ message: 'get all products' })
+async function getAllProducts(req, res) {
+
+    res.status(400).send('not implemented');
+    // var query = await pool.query('SELECT * FROM Products');
+
+    // res.json(query.rows);
 }
 
 /**
@@ -26,8 +34,9 @@ function getAllProducts(req, res) {
  * @param {*} req
  * @param {*} res
  */
-function getProduct(req, res) {
-    res.json({ message: 'get a product' })
+async function getProduct(req, res) {
+
+    res.status(400).send('not implemented');
 }
 
 module.exports = productRouter;

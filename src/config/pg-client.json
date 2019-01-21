@@ -1,0 +1,7 @@
+{
+    "host": "localhost",
+    "user": "thomas",
+    "database": "thomas",
+    "password": "shopify-challenge",
+    "port": 5432
+}

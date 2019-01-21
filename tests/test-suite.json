@@ -1,0 +1,739 @@
+{
+	"info": {
+		"_postman_id": "0366769c-51f3-4ed6-a121-c2e0cae2eedd",
+		"name": "Shopify challenge test suite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products API",
+			"item": [
+				{
+					"name": "Get all products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e94eb1c-a113-422f-adc3-07cc25c7e0d7",
+								"exec": [
+									"pm.test('It should fetch all the prodcuts', function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all available products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3d31e318-2771-4483-aabd-40818e1f17f8",
+								"exec": [
+									"pm.test('get all available products', function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    ",
+									"    pm.test('all products have an inventory_count > 0', function() {",
+									"        var data = pm.response.json();",
+									"        ",
+									"        for (var i = 0; i < data.length; i++) {",
+									"            ",
+									"            pm.expect(data[i].inventory_count).to.be.above(0);",
+									"        }",
+									"    });",
+									"    ",
+									"    var prod = pm.response.json()[1];",
+									"    ",
+									"    pm.environment.set('specificProd', prod.product_id);",
+									"    pm.environment.set('inventoryCount', prod.inventory_count * 2);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/products?allAvailable=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "allAvailable",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d305e0eb-1ecf-4bab-9cf9-d5091cdf0cc3",
+								"exec": [
+									"pm.test('It should get the specific product', function() {",
+									"    ",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/{{specificProd}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"{{specificProd}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get non-existent product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e4d31c3-9cb9-4c92-a1b6-9f5285780e96",
+								"exec": [
+									"pm.test('It should return an 404 status', function() {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/{{$guid}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"{{$guid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopping Cart API",
+			"item": [
+				{
+					"name": "Get shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b09f06c3-5df4-4430-9b85-1124fbc6ef16",
+								"exec": [
+									"pm.test('it should return the shopping cart with the total and products', function() {",
+									"    ",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a product to the shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5392de97-3d57-4807-89ad-da543a2352a7",
+								"exec": [
+									"pm.test('it should add the product to the cart', function() {",
+									"    ",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"product_id\": \"{{specificProd}}\",\n\t\t\"quantity\": 1\n\t}\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/add",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a non-existent product to shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "105a1e0e-f9d3-41ff-97ed-00a91a744b76",
+								"exec": [
+									"pm.test('it should fail to add the product to the cart', function() {",
+									"    ",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"product_id\": \"{{$guid}}\",\n\t\t\"quantity\": 1\n\t}\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/add",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a product to the shopping cart with a quantity less than 0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "412ac14c-d2d3-412e-ab97-9047a6401960",
+								"exec": [
+									"pm.test('it should fail to add the product to the cart', function() {",
+									"    ",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"product_id\": \"{{specificProd}}\",\n\t\t\"quantity\": 0\n\t}\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/add",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a products quantity in the shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "139e060e-8cae-480a-9195-0a2f86337bc7",
+								"exec": [
+									"pm.test('it should update the quantity and return a 200 code', function() {",
+									"    ",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": {{inventoryCount}}\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/{{specificProd}}/quantity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"{{specificProd}}",
+								"quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a non-existent product's quantity in the shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6b89965a-319f-44f6-b4e8-8630780eee87",
+								"exec": [
+									"pm.test('it should fail because there is no product with that uuid', function() {",
+									"",
+									"    pm.response.to.have.status(404); ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 1\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/{{$guid}}/quantity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"{{$guid}}",
+								"quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a products quantity with a number less than 0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8dbcad85-9e34-4d2f-9113-db024d8dfa62",
+								"exec": [
+									"pm.test('it should fail because the quantity <= 0', function() {",
+									"",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 0\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/{{$guid}}/quantity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"{{$guid}}",
+								"quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a product from the shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d0c41894-3f85-47b0-bd18-1e362b0b0481",
+								"exec": [
+									"pm.test('It should remove the product with the uuid', function() {",
+									"",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t\"{{specificProd}}\"\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/remove",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a non-existent item from the shopping cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4bc6d4b-2129-4e4f-bd6f-5dc6eed15a8b",
+								"exec": [
+									"pm.test('if should fail because there will not be that prod with that uuid', function() {",
+									"",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t\"{{$guid}}\"\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/remove",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fail to complete the transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a04fe7cf-2968-43a0-9a09-912294dbb407",
+								"exec": [
+									"pm.test('it should fail because the the a quantity is higher than the total available', function() {",
+									"   ",
+									"   pm.response.to.have.status(409); ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/complete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the quantity to fix",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0c0b38f8-a58c-4cfb-84ba-22361e577d43",
+								"exec": [
+									"var quantity = pm.environment.get('inventoryCount');",
+									"",
+									"pm.environment.set('inventoryCount', quantity / 2);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "02090752-7aea-499f-9e57-052d6d0b9808",
+								"exec": [
+									"pm.test('update the quantity', function() {",
+									"    ",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": {{inventoryCount}}\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/{{specificProd}}/quantity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"{{specificProd}}",
+								"quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete the transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c352cb53-8cfa-4f1a-b305-4f8289f6270f",
+								"exec": [
+									"pm.test('it should complete the transaction', function() {",
+									"    ",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/shopping-cart/complete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

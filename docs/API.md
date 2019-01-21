@@ -7,7 +7,7 @@ Route | Method
 [api/shopping-cart/](#sc1) | `GET`
 [api/shopping-cart/add](#sc2) | `PATCH`
 [api/shopping-cart/remove](#sc3) | `PATCH`
-[api/shopping-cart/:prod_id/quantity](#sc5) | `UPDATE`
+[api/shopping-cart/:prod_id/quantity](#sc5) | `PUT`
 [api/shopping-cart/complete](#sc4) | `POST`
 
 
@@ -105,7 +105,7 @@ This endpoint exposes the session based shopping cart and add the products and t
 
 Response Codes | Reason
 --- | ---
-200 | Successufly added the items the shopping cart.
+204 | Successufly added the items the shopping cart.
 400 | The quantity that was given was less than 0
 404 | There was an object that had a product id that does not exist
 500 | A general error handling server code
@@ -128,7 +128,7 @@ Response Codes | Reason
 404 | There was a product id that did not exist in the users shopping cart
 500 | A general error handling server code
 
-## <a name="sc5"></a> UPDATE api/shopping-cart/:prod_id/quantity
+## <a name="sc5"></a> PUT api/shopping-cart/:prod_id/quantity
 This endpoint will update a shopping cart product's quantity
 
 ### Request body
