@@ -4,7 +4,7 @@ Here I will reference my design desicions and some steps to get this functioning
 
 [Requirements of the challenge](./docs/requirements.md)
 [Personal notes](./docs/personal-notes.md)
-[Notes about some scripts](./docs/scripts-info.md)
+[Notes about some scripts](./docs/Setup-notes.md)
 [API spec](./docs/API.md)
 
 ## Design desicions
