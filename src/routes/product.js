@@ -5,7 +5,7 @@ const utils = require('../utils/index');
 const pgconfig = require('../config/pg-client.json');
 
 productRouter.get('/products', getAllProducts);
-productRouter.get(new RegExp('/products/' + utils.guidExp), getProduct);
+productRouter.get(new RegExp('/products/(' + utils.guidExp + ')'), getProduct);
 
 const pool = new Pool(pgconfig);
 
@@ -19,12 +19,22 @@ const pool = new Pool(pgconfig);
  * @param {*} req
  * @param {*} res
  */
-async function getAllProducts(req, res) {
+function getAllProducts(req, res) {
 
-    res.status(400).send('not implemented');
-    // var query = await pool.query('SELECT * FROM Products');
+    var whereClause = '';
 
-    // res.json(query.rows);
+    // check the query param
+    if (req.query.allAvailable === "true") {
+        whereClause = 'WHERE inventory_count > 0';
+    }
+    
+    pool.query('SELECT product_id,title,price::money::numeric::float8,inventory_count FROM Products ' + whereClause)
+        .then(function(query) {
+            res.status(200).json(query.rows);
+        })
+        .catch(function(err) {
+            res.status(500).end();
+        });
 }
 
 /**
@@ -34,9 +44,26 @@ async function getAllProducts(req, res) {
  * @param {*} req
  * @param {*} res
  */
-async function getProduct(req, res) {
+function getProduct(req, res) {
+    
+    var productId = req.params['0'];
 
-    res.status(400).send('not implemented');
+    pool.query("SELECT * FROM Products WHERE product_id = $1", [productId])
+        .then(function(query) {
+            
+            // get the row
+            if (query.rows.length > 0) {
+
+                var product = query.rows[0];
+                res.status(200).json(product);
+            } else {
+
+                res.status(404).end();
+            }
+        })
+        .catch(function(err) {
+            res.status(500).end();
+        })
 }
 
 module.exports = productRouter;

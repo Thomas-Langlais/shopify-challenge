@@ -75,11 +75,13 @@ This endpoint will fetch the session based shopping cart and give the results of
     "products": [
         {
             "product_id": "72326fd4-a0a2-4985-bf80-11e97ae1445b",
+            "title": "An item",
+            "price": 10.99,
             "quantity": 1
         },
         {...}
     ],
-    total: 10.99
+    "total": 10.99
 }
 ```
 
@@ -106,12 +108,12 @@ This endpoint exposes the session based shopping cart and add the products and t
 Response Codes | Reason
 --- | ---
 204 | Successufly added the items the shopping cart.
-400 | The quantity that was given was less than 0
+400 | The quantity that was given was less than 1
 404 | There was an object that had a product id that does not exist
 500 | A general error handling server code
 
 ## <a name="sc3"></a> PATCH api/shopping-cart/remove
-This endpoint will fetch the session based shopping cart and remove the specified product
+This endpoint will fetch the session based shopping cart and remove the specified products
 
 ### Request body
 
@@ -142,8 +144,8 @@ This endpoint will update a shopping cart product's quantity
 
 Response Codes | Reason
 --- | ---
-200 | Successufly purchased the items the shopping cart.
-400 | The quantity that was given was less than zero
+204 | Successufly purchased the items the shopping cart.
+400 | The quantity that was given was less than one
 404 | The product with id :prod_id does not exist
 500 | A general error handling server code
 
@@ -152,6 +154,7 @@ This endpoint will process the shopping card and validate whether the cart is va
 
 Response Codes | Reason
 --- | ---
-200 | Successufly purchased the items the shopping cart.
+204 | Successufly purchased the items the shopping cart.
+400 | There were no items to process.
 409 | There was a product that had a lower inventory count than the amount requested in the shopping cart.
 500 | A general error handling server code

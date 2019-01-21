@@ -12,9 +12,10 @@ CREATE TABLE Products (
 
 -- The shopping cart schema
 CREATE TABLE ShoppingCartItems (
-    shopping_cart_id UUID PRIMARY KEY,
+    shopping_cart_id UUID,
     quantity SMALLINT CHECK(quantity >= 0),
     product_id UUID NOT NULL,
+    PRIMARY KEY (shopping_cart_id,product_id),
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 

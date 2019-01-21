@@ -13,9 +13,11 @@
   "author": "Thomas L'Anglais",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "pg": "^7.8.0"
+    "pg": "^7.8.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {}
 }
